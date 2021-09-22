@@ -48,61 +48,33 @@ function App() {
       setName(name)
 
       const count = await cntr.methods.todosCount().call()
-      setCount(count)  
-
-      for(let i=1;i<=count;i++) {
-        await cntr.methods.tasks(i).call().then(task => {
-          setTasks(oldTasks => [...oldTasks, task])          
-        });
-      }
-
-      web3.eth.subscribe('logs', async (err, res) => {
-        if(!err) {
-          setTasks([])
-          const count = await cntr.methods.todosCount().call()
-          setCount(count)
-
-          for(let i=1;i<=count;i++) {
-            await cntr.methods.tasks(i).call().then(task => {
-              setTasks(oldTasks => [...oldTasks, task])          
-            });
-          }
-        }
-      })
+      setCount(count)
     }
     setLoading(false)
   }
 
   const toggleTask = async (id) => {
-    await contract.methods.toggle(id).send({ from: account })
-    toggle(!done)
+    
   }
 
   const toggleWindow = (payload) => {
-    setShow(payload)
+    
   }
 
   const createTask = async () => {
-    console.log({ from: account })
-    await contract.methods.createTodo(taskContent).send({ from: account })
-    setShow(false)
-    setContent("")
+  
   }
 
   const editTodo = async (id, content) => {
-    await contract.methods.editTask(id, content).send({ from: account })
   }
 
   const toggleTodo = async (id) => {
-    toggleTask(id)
   }
 
   const inpHandler = e => {
-    setContent(e.target.value)
   }
 
   const revoveTodo = async (id) => {
-    await contract.methods.deleteTodo(id).send({ from: account })
   }
 
   useEffect(() => {
